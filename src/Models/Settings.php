@@ -6,8 +6,6 @@ use craft\base\Model;
 
 /**
  * Class Settings
- *
- * @package percipiolondon\colourswatches\models
  */
 class Settings extends Model
 {
