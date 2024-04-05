@@ -6,8 +6,7 @@ use craft\base\Model;
 
 /**
  * Class Settings
- *
- */
+ * */
 class Settings extends Model
 {
     /**
