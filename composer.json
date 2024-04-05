@@ -1,0 +1,42 @@
+{
+    "name": "little-miss-robot/craft-auto-translator",
+    "description": "Automatically translate your entries",
+    "type": "craft-plugin",
+    "license": "mit",
+    "support": {
+        "email": "rein.vanoyen@littlemissrobot.com",
+        "issues": "https://github.com/reinvanoyen/craft-auto-translator/issues?state=open",
+        "source": "https://github.com/reinvanoyen/craft-auto-translator",
+        "docs": "https://github.com/reinvanoyen/craft-auto-translator",
+        "rss": "https://github.com/reinvanoyen/craft-auto-translator/releases.atom"
+    },
+    "require": {
+        "php": ">=8.0.2",
+        "craftcms/cms": "^4.8.0"
+    },
+    "require-dev": {
+        "craftcms/phpstan": "dev-main"
+    },
+    "autoload": {
+        "psr-4": {
+            "Lmr\\AutoTranslator\\": "src/"
+        }
+    },
+    "extra": {
+        "handle": "auto-translator",
+        "name": "Auto Translator",
+        "developer": "Little Miss Robot",
+        "documentationUrl": "https://github.com/reinvanoyen/craft-auto-translator"
+    },
+    "config": {
+        "sort-packages": true,
+        "platform": {
+            "php": "8.0.2"
+        },
+        "allow-plugins": {
+            "yiisoft/yii2-composer": true,
+            "craftcms/plugin-installer": true
+        }
+    }
+}
+
