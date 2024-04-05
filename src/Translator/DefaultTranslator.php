@@ -2,12 +2,11 @@
 
 namespace Lmr\AutoTranslator\Translator;
 
-use craft\base\Component;
 use craft\elements\Entry;
 use Lmr\AutoTranslator\Contracts\Policy;
 use Lmr\AutoTranslator\Contracts\TranslationService;
 
-class DefaultTranslator extends Component
+class DefaultTranslator
 {
     /**
      * @var Policy $policy
@@ -22,7 +21,7 @@ class DefaultTranslator extends Component
     /**
      * @param Policy $policy
      * @param TranslationService $service
-     * @return void
+     * @param array $config
      */
     public function __construct(Policy $policy, TranslationService $service)
     {
@@ -34,10 +33,10 @@ class DefaultTranslator extends Component
      * @param Entry $entry
      * @return void
      */
-    public function scheduleTranslation(Entry $entry)
+    public function scheduleTranslation(Entry $entry): void
     {
         if ($this->policy->shouldTranslate($entry)) {
-            dd('Should translate!');
+            // @TODO
         }
     }
 }

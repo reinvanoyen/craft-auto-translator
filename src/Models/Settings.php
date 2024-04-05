@@ -7,7 +7,6 @@ use craft\base\Model;
 /**
  * Class Settings
  *
- * @package percipiolondon\colourswatches\models
  */
 class Settings extends Model
 {
@@ -15,6 +14,16 @@ class Settings extends Model
      * @var bool $enabled
      */
     public bool $enabled;
+
+    /**
+     * @var array $fromLanguages
+     */
+    public array $fromLanguages;
+
+    /**
+     * @var array $toLanguages
+     */
+    public array $toLanguages;
 
     /**
      * @var string $service
@@ -42,7 +51,7 @@ class Settings extends Model
     protected function defineRules(): array
     {
         return [
-            [['enabled', 'service', 'services', 'policy', 'translate'], 'required'],
+            [['enabled', 'fromLanguages', 'toLanguages', 'service', 'services', 'policy', 'translate'], 'required'],
         ];
     }
 }

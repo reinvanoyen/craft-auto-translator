@@ -7,44 +7,58 @@ use craft\base\{Event, Model, Plugin as BasePlugin};
 use craft\elements\Entry;
 use craft\events\ModelEvent;
 use Lmr\AutoTranslator\Contracts\Policy;
+use Lmr\AutoTranslator\Contracts\TranslationService;
 use Lmr\AutoTranslator\Models\Settings;
-use Lmr\AutoTranslator\Policies\TestClass;
-use Lmr\AutoTranslator\Services\SimpleTranslationService;
 use Lmr\AutoTranslator\Translator\DefaultTranslator;
 
 class Plugin extends BasePlugin
 {
+    /**
+     * @var string $schemaVersion
+     */
     public string $schemaVersion = '1.0.0';
 
+    /**
+     * @return array[]
+     */
     public static function config(): array
     {
-        // @TODO fix DI, what's wrong here?
         return [
             'components' => [
-                'policy' => [
-                    'class' => Policy::class,
-                ],
-                'service' => [
-                    'class' => SimpleTranslationService::class,
-                ],
                 'translator' => [
                     'class' => DefaultTranslator::class,
-                    'policy' => 'policy',
-                    'service' => 'service',
                 ],
             ],
         ];
     }
 
+    /**
+     * @return void
+     */
     public function init(): void
     {
         parent::init();
 
         Craft::$app->onInit(function() {
+            $this->bindDependencies();
             $this->attachEventHandlers();
         });
     }
 
+    /**
+     * @return void
+     */
+    private function bindDependencies(): void
+    {
+        $config = $this->getSettings();
+
+        Craft::$container->set(Policy::class, $config->policy);
+        Craft::$container->set(TranslationService::class, $config->services[$config->service]);
+    }
+
+    /**
+     * @return void
+     */
     private function attachEventHandlers(): void
     {
         Event::on(Entry::class, Entry::EVENT_AFTER_PROPAGATE, function (ModelEvent $event) {
@@ -72,5 +86,4 @@ class Plugin extends BasePlugin
         $values = require __DIR__.'/config.php';
         return new Settings($values);
     }
-
 }

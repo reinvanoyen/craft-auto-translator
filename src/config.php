@@ -2,6 +2,8 @@
 
 return [
     'enabled' => true,
+    'fromLanguages' => ['nl'],
+    'toLanguages' => ['en'],
     'service' => 'simple',
     'services' => [
         'simple' => [
