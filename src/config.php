@@ -1,24 +1,30 @@
 <?php
 
+use \craft\helpers\App;
+
 return [
-    'enabled' => true,
+    'enabled' => App::env('AUTO_TRANSLATOR_ENABLED') ?: true,
     'fromLanguages' => ['nl'],
     'toLanguages' => ['en'],
-    'service' => 'google',
+    'service' => 'deepl',
     'services' => [
+        'deepl' => [
+            'class' => Lmr\AutoTranslator\Services\DeeplTranslationService::class,
+            'apiKey' => App::env('DEEPL_API_KEY'),
+        ],
         'google' => [
-            'class' => \Lmr\AutoTranslator\Services\GoogleCloudTranslationService::class,
-            'project' => \craft\helpers\App::env('GOOGLE_TRANSLATE_PROJECT'),
-            'location' => \craft\helpers\App::env('GOOGLE_TRANSLATE_LOCATION'),
+            'class' => Lmr\AutoTranslator\Services\GoogleCloudTranslationService::class,
+            'project' => App::env('GOOGLE_TRANSLATE_PROJECT'),
+            'location' => App::env('GOOGLE_TRANSLATE_LOCATION'),
             'options' => [
-                'credentials' => \craft\helpers\App::env('GOOGLE_TRANSLATE_KEY')
+                'credentials' => App::env('GOOGLE_TRANSLATE_KEY')
             ],
         ],
         'simple' => [
-            'class' => \Lmr\AutoTranslator\Services\SimpleTranslationService::class,
+            'class' => Lmr\AutoTranslator\Services\SimpleTranslationService::class,
         ],
         'reverse' => [
-            'class' => \Lmr\AutoTranslator\Services\ReverseWordsTranslationService::class,
+            'class' => Lmr\AutoTranslator\Services\ReverseWordsTranslationService::class,
             'prefix' => '[',
             'suffix' => ']',
         ],
@@ -37,7 +43,7 @@ return [
         ],
     ],
     'fields' => [
-        craft\fieldlayoutelements\entries\EntryTitleField::class => \Lmr\AutoTranslator\FieldTypes\TextField::class,
-        craft\ckeditor\Field::class => \Lmr\AutoTranslator\FieldTypes\RichtextField::class,
+        craft\fieldlayoutelements\entries\EntryTitleField::class => Lmr\AutoTranslator\FieldTypes\TextField::class,
+        craft\ckeditor\Field::class => Lmr\AutoTranslator\FieldTypes\RichtextField::class,
     ],
 ];

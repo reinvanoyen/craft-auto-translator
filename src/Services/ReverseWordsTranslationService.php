@@ -7,14 +7,14 @@ use Lmr\AutoTranslator\Contracts\TranslationService;
 class ReverseWordsTranslationService implements TranslationService
 {
     /**
-     * @param string $prefix
-     * @param string $suffix
+     * @var string $prefix
      */
-    public function __construct(string $prefix = '', string $suffix = '')
-    {
-        $this->prefix = $prefix;
-        $this->suffix = $suffix;
-    }
+    public string $prefix;
+
+    /**
+     * @var string $suffix
+     */
+    public string $suffix;
 
     /**
      * @param string $input
