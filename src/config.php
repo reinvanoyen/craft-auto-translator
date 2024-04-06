@@ -4,13 +4,21 @@ return [
     'enabled' => true,
     'fromLanguages' => ['nl'],
     'toLanguages' => ['en'],
-    'service' => 'reverse',
+    'service' => 'google',
     'services' => [
+        'google' => [
+            'class' => \Lmr\AutoTranslator\Services\GoogleCloudTranslationService::class,
+            'project' => \craft\helpers\App::env('GOOGLE_TRANSLATE_PROJECT'),
+            'location' => \craft\helpers\App::env('GOOGLE_TRANSLATE_LOCATION'),
+            'options' => [
+                'credentials' => \craft\helpers\App::env('GOOGLE_TRANSLATE_KEY')
+            ],
+        ],
         'simple' => [
-            'class' => Lmr\AutoTranslator\Services\SimpleTranslationService::class,
+            'class' => \Lmr\AutoTranslator\Services\SimpleTranslationService::class,
         ],
         'reverse' => [
-            'class' => Lmr\AutoTranslator\Services\ReverseWordsTranslationService::class,
+            'class' => \Lmr\AutoTranslator\Services\ReverseWordsTranslationService::class,
             'prefix' => '[',
             'suffix' => ']',
         ],
