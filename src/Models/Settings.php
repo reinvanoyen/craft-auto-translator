@@ -40,9 +40,14 @@ class Settings extends Model
     public array $services;
 
     /**
-     * @var array $translatables
+     * @var array $translate
      */
     public array $translate;
+
+    /**
+     * @var array $fields
+     */
+    public array $fields;
 
     /**
      * @return array[]
@@ -50,7 +55,7 @@ class Settings extends Model
     protected function defineRules(): array
     {
         return [
-            [['enabled', 'fromLanguages', 'toLanguages', 'service', 'services', 'policy', 'translate'], 'required'],
+            [['enabled', 'fromLanguages', 'toLanguages', 'service', 'services', 'policy', 'translate', 'fields',], 'required'],
         ];
     }
 }

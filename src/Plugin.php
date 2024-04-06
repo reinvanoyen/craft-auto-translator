@@ -73,7 +73,7 @@ class Plugin extends BasePlugin
                 return;
             }
 
-            $this->translator->scheduleTranslation($event->sender);
+            $this->translator->queueTranslation($event->sender);
         });
     }
 
