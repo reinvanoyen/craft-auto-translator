@@ -8,6 +8,6 @@ class SimpleTranslationService implements TranslationService
 {
     public function translate(string $input, string $fromLanguage, string $toLanguage): string
     {
-        return 'Vertaald!';
+        return '"'.$input.'" werd vertaald van '.$fromLanguage.' naar '.$toLanguage.'!';
     }
 }
