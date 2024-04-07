@@ -3,6 +3,7 @@
 namespace Lmr\AutoTranslator;
 
 use Craft;
+use craft\helpers\App;
 use craft\base\{Event, Model, Plugin as BasePlugin};
 use craft\elements\Entry;
 use craft\events\ModelEvent;
@@ -17,6 +18,11 @@ class Plugin extends BasePlugin
      * @var string $schemaVersion
      */
     public string $schemaVersion = '1.0.0';
+
+    /**
+     * @var bool $hasCpSettings
+     */
+    public bool $hasCpSettings = true;
 
     /**
      * @return array[]
@@ -85,5 +91,36 @@ class Plugin extends BasePlugin
         // @TODO check if there's no better way in Craft/YII (how to cache, merge, extend???)
         $values = require __DIR__.'/config.php';
         return new Settings($values);
+    }
+
+    /**
+     * @return string|null
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     * @throws \yii\base\Exception
+     */
+    protected function settingsHtml(): ?string
+    {
+        $config = $this->getSettings();
+        $services = $config->services;
+
+        $serviceSelect = array_combine(array_keys($services), array_map(function ($value) {
+            return ucfirst($value);
+        }, array_keys($services)));
+
+        $languages = array_unique(array_map(function ($site) {
+            return $site->language;
+        }, Craft::$app->sites->getAllSites()));
+
+
+        return Craft::$app->getView()->renderTemplate(
+            'auto-translator/settings',
+            [
+                'settings' => $this->getSettings(),
+                'serviceOptions' => $serviceSelect,
+                'languageOptions' => array_combine($languages, $languages),
+            ],
+        );
     }
 }

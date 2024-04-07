@@ -1,0 +1,32 @@
+{% import '_includes/forms.twig' as forms %}
+
+<h2>{{ 'Settings' }}</h2>
+
+{{ forms.lightswitchField({
+	label: 'Enabled',
+	instructions: 'Turn this off if you don\'t want auto translator to be active',
+	name: 'enabled',
+	on: settings.enabled
+}) }}
+
+{{ forms.selectField({
+	label: 'Service',
+	instructions: 'The service to use for the automatic translations',
+	name: 'service',
+	options: serviceOptions,
+	value: settings.service
+}) }}
+
+{{ forms.checkboxGroupField({
+	label: 'Source languages',
+	name: 'fromLanguages',
+	options: languageOptions,
+	values: settings.fromLanguages
+}) }}
+
+{{ forms.checkboxGroupField({
+	label: 'Target languages',
+	name: 'toLanguages',
+	options: languageOptions,
+	values: settings.toLanguages
+}) }}
