@@ -21,13 +21,12 @@ class DeeplTranslationService implements TranslationService
      */
     public function translate(string $input, string $fromLanguage, string $toLanguage): string
     {
-        $languageMap = [
-            'en' => 'en-US',
-            'pt' => 'pt-PT',
+        $toLanguageMap = [
+            'en' => 'EN-US',
+            'pt' => 'PT-PT',
         ];
 
-        $fromLanguage = $languageMap[$fromLanguage] ?? $fromLanguage;
-        $toLanguage = $languageMap[$toLanguage] ?? $toLanguage;
+        $toLanguage = $toLanguageMap[$toLanguage] ?? $toLanguage;
 
         // Create the client
         $client = new Translator($this->apiKey);
