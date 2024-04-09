@@ -1,6 +1,6 @@
 <?php
 
-namespace Lmr\AutoTranslator\FieldTypes;
+namespace Lmr\AutoTranslator\Fields\Types;
 
 use craft\elements\Entry;
 use Lmr\AutoTranslator\Contracts\Field;

@@ -1,6 +1,6 @@
 <?php
 
-use \craft\helpers\App;
+use craft\helpers\App;
 
 return [
     'enabled' => App::env('AUTO_TRANSLATOR_ENABLED') ?: true,
@@ -43,7 +43,7 @@ return [
         ],
     ],
     'fields' => [
-        craft\fieldlayoutelements\entries\EntryTitleField::class => Lmr\AutoTranslator\FieldTypes\TextField::class,
-        craft\ckeditor\Field::class => Lmr\AutoTranslator\FieldTypes\RichtextField::class,
+        craft\fieldlayoutelements\entries\EntryTitleField::class => \Lmr\AutoTranslator\Fields\Types\TextField::class,
+        craft\ckeditor\Field::class => \Lmr\AutoTranslator\Fields\Types\RichtextField::class,
     ],
 ];

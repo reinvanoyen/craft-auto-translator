@@ -4,9 +4,7 @@ namespace Lmr\AutoTranslator\Translator;
 
 use Craft;
 use craft\elements\Entry;
-use craft\fieldlayoutelements\CustomField;
 use Lmr\AutoTranslator\Contracts\Policy;
-use Lmr\AutoTranslator\Contracts\TranslationService;
 use Lmr\AutoTranslator\Plugin;
 
 class DefaultTranslator
@@ -17,25 +15,28 @@ class DefaultTranslator
     public Policy $policy;
 
     /**
-     * @var TranslationService $service
+     * @var DefaultEntryTranslator $entryTranslator
      */
-    public TranslationService $service;
+    public DefaultEntryTranslator $entryTranslator;
 
     /**
      * @param Policy $policy
-     * @param TranslationService $service
-     * @param array $config
+     * @param DefaultEntryTranslator $entryTranslator
      */
-    public function __construct(Policy $policy, TranslationService $service)
+    public function __construct(Policy $policy, DefaultEntryTranslator $entryTranslator)
     {
         $this->policy = $policy;
-        $this->service = $service;
+        $this->entryTranslator = $entryTranslator;
     }
 
     /**
      * @param Entry $entry
      * @return void
-     * @throws \Exception
+     * @throws \Throwable
+     * @throws \craft\errors\ElementNotFoundException
+     * @throws \yii\base\Exception
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\di\NotInstantiableException
      */
     public function queueTranslation(Entry $entry): void
     {
@@ -45,8 +46,6 @@ class DefaultTranslator
 
             $config = Plugin::getInstance()->getSettings();
             $toLanguages = $config->toLanguages;
-            $translateFields = $config->translate[$handle];
-            $fieldTypes = $config->fields;
 
             $section = Craft::$app->getSections()->getSectionByHandle($handle);
 
@@ -80,43 +79,7 @@ class DefaultTranslator
 
                     $entryToTranslate = $entryToTranslate->one();
 
-                    foreach ($translateFields as $field) {
-
-                        $fieldInfo = $entryToTranslate->getFieldLayout()->getField($field);
-
-                        if (! $fieldInfo) {
-                            continue;
-                        }
-
-                        $fieldClassName = get_class($fieldInfo);
-
-                        if ($fieldClassName === CustomField::class) {
-                            foreach ($entryToTranslate->getFieldLayout()->getCustomFields() as $c) {
-                                if ($c->handle === $field) {
-                                    $fieldClassName = get_class($c);
-                                }
-                            }
-                        }
-
-                        if (! isset($fieldTypes[$fieldClassName])) {
-                            continue;
-                        }
-
-                        // Make an instance of the correct field type
-                        $fieldType = Craft::$container->get($fieldTypes[$fieldClassName]);
-
-                        // Get the original content for this field type and entry
-                        $content = $fieldType->get($field, $entry);
-
-                        // Translate it
-                        $translated = $this->service->translate($content, $entry->site->language, $site->language);
-
-                        // Save!
-                        $fieldType->save($field, $entryToTranslate, $translated);
-                    }
-
-                    // Save the translated entry
-                    Craft::$app->elements->saveElement($entryToTranslate);
+                    $this->entryTranslator->translate($entryToTranslate, $entry->site->language, $site->language);
                 }
             }
         }
