@@ -3,7 +3,6 @@
 namespace Lmr\AutoTranslator;
 
 use Craft;
-use craft\helpers\App;
 use craft\base\{Event, Model, Plugin as BasePlugin};
 use craft\elements\Entry;
 use craft\events\ModelEvent;

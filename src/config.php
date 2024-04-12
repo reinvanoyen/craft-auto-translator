@@ -43,7 +43,7 @@ return [
         ],
     ],
     'fields' => [
-        craft\fieldlayoutelements\entries\EntryTitleField::class => \Lmr\AutoTranslator\Fields\Types\TextField::class,
-        craft\ckeditor\Field::class => \Lmr\AutoTranslator\Fields\Types\RichtextField::class,
+        craft\fieldlayoutelements\entries\EntryTitleField::class => Lmr\AutoTranslator\Fields\Types\TextField::class,
+        craft\ckeditor\Field::class => Lmr\AutoTranslator\Fields\Types\RichtextField::class,
     ],
 ];

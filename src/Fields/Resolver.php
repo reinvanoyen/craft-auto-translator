@@ -2,10 +2,12 @@
 
 namespace Lmr\AutoTranslator\Fields;
 
+use Craft;
 use craft\elements\Entry;
 use craft\fieldlayoutelements\CustomField;
 use Lmr\AutoTranslator\Contracts\Field;
 use Lmr\AutoTranslator\Contracts\FieldResolver;
+use Lmr\AutoTranslator\Plugin;
 
 class Resolver implements FieldResolver
 {
@@ -36,6 +38,9 @@ class Resolver implements FieldResolver
                 }
             }
         }
+
+        $config = Plugin::getInstance()->getSettings();
+        $fieldTypes = $config->fields;
 
         // Do we have a field type definition of this field?
         if (! isset($fieldTypes[$fieldClassName])) {
