@@ -87,9 +87,7 @@ class Plugin extends BasePlugin
      */
     protected function createSettingsModel(): ?Model
     {
-        // @TODO check if there's no better way in Craft/YII (how to cache, merge, extend???)
-        $values = require __DIR__.'/config.php';
-        return new Settings($values);
+        return new Settings();
     }
 
     /**
