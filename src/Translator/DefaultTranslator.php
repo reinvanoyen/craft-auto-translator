@@ -59,6 +59,7 @@ class DefaultTranslator
 
             // Loop over our site ids and get the corresponding languages
             foreach ($siteIds as $siteId) {
+
                 $site = Craft::$app->getSites()->getSiteById($siteId);
                 if ($site && $site->enabled) {
 
@@ -79,7 +80,7 @@ class DefaultTranslator
 
                     $entryToTranslate = $entryToTranslate->one();
 
-                    $this->entryTranslator->translate($entryToTranslate, $entry->site->language, $site->language);
+                    $this->entryTranslator->translate($entry, $entryToTranslate, $entry->site->language, $site->language);
                 }
             }
         }

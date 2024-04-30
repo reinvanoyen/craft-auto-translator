@@ -7,16 +7,6 @@ use Lmr\AutoTranslator\Contracts\TranslationService;
 class ReverseWordsTranslationService implements TranslationService
 {
     /**
-     * @var string $prefix
-     */
-    public string $prefix;
-
-    /**
-     * @var string $suffix
-     */
-    public string $suffix;
-
-    /**
      * @param string $input
      * @param string $fromLanguage
      * @param string $toLanguage
@@ -30,6 +20,6 @@ class ReverseWordsTranslationService implements TranslationService
             $output[] = strrev($word);
         }
 
-        return $this->prefix . implode(' ', $output) . $this->suffix;
+        return implode(' ', $output);
     }
 }

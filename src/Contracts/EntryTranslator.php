@@ -6,5 +6,5 @@ use craft\elements\Entry;
 
 interface EntryTranslator
 {
-    public function translate(Entry $entry, string $fromLanguage, string $toLanguage);
+    public function translate(Entry $originalEntry, Entry $translateEntry, string $fromLanguage, string $toLanguage);
 }

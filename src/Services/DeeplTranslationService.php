@@ -32,6 +32,7 @@ class DeeplTranslationService implements TranslationService
         $client = new Translator($this->apiKey);
 
         $result = $client->translateText($input, $fromLanguage, $toLanguage);
+
         return $result->text;
     }
 }

@@ -3,6 +3,7 @@
 namespace Lmr\AutoTranslator\Models;
 
 use craft\base\Model;
+use Lmr\AutoTranslator\Services\ReverseWordsTranslationService;
 
 /**
  * Class Settings
@@ -42,7 +43,7 @@ class Settings extends Model
     public array $services = [
         'deepl' => [
             'class' => \Lmr\AutoTranslator\Services\DeeplTranslationService::class,
-            'apiKey' => '$DEEPL_API_KEY',
+            'apiKey' => '05727dce-9cdc-4ca3-be6f-260f740fed54:fx',
         ],
         'google' => [
             'class' => \Lmr\AutoTranslator\Services\GoogleCloudTranslationService::class,
@@ -51,6 +52,9 @@ class Settings extends Model
             'options' => [
                 'credentials' => 'GOOGLE_TRANSLATE_KEY',
             ],
+        ],
+        'reverse' => [
+            'class' => ReverseWordsTranslationService::class,
         ],
     ];
 

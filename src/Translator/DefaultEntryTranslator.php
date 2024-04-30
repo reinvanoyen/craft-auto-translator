@@ -42,28 +42,28 @@ class DefaultEntryTranslator implements EntryTranslator
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\di\NotInstantiableException
      */
-    public function translate(Entry $entry, $fromLanguage, $toLanguage)
+    public function translate(Entry $originalEntry, Entry $translateEntry, $fromLanguage, $toLanguage)
     {
-        $handle = $entry->section->handle;
+        $handle = $translateEntry->section->handle;
 
         $config = Plugin::getInstance()->getSettings();
         $translateFields = $config->translate[$handle];
 
         foreach ($translateFields as $field) {
 
-            $fieldType = $this->fieldResolver->resolve($entry, $field);
+            $fieldType = $this->fieldResolver->resolve($originalEntry, $field);
 
             // Get the original content for this field type and entry
-            $content = $fieldType->get($field, $entry);
+            $content = $fieldType->get($field, $originalEntry);
 
             // Translate it
             $translated = $this->service->translate($content, $fromLanguage, $toLanguage);
 
             // Save!
-            $fieldType->save($field, $entry, $translated);
+            $fieldType->save($field, $translateEntry, $translated);
         }
 
         // Save the translated entry
-        Craft::$app->elements->saveElement($entry);
+        Craft::$app->elements->saveElement($translateEntry);
     }
 }
