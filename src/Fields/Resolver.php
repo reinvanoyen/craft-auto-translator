@@ -9,7 +9,7 @@ use Lmr\AutoTranslator\Contracts\FieldInterface;
 use Lmr\AutoTranslator\Contracts\FieldResolverInterface;
 use Lmr\AutoTranslator\Plugin;
 
-class ResolverInterface implements FieldResolverInterface
+class Resolver implements FieldResolverInterface
 {
     /**
      * @param Entry $entry
@@ -50,6 +50,6 @@ class ResolverInterface implements FieldResolverInterface
         }
 
         // Make an instance of the found field type
-        return Craft::$container->get($fieldTypes[$fieldClassName], [$fieldName]);
+        return Craft::$container->get($fieldTypes[$fieldClassName], [$fieldName, $entry]);
     }
 }
