@@ -4,43 +4,60 @@ namespace Lmr\AutoTranslator\Fields;
 
 use Craft;
 use craft\elements\Entry;
+use craft\fieldlayoutelements\BaseField;
 use craft\fieldlayoutelements\CustomField;
+use craft\base\FieldInterface as CraftFieldInterface;
 use Lmr\AutoTranslator\Contracts\FieldInterface;
 use Lmr\AutoTranslator\Contracts\FieldResolverInterface;
 use Lmr\AutoTranslator\Plugin;
+use yii\base\InvalidArgumentException;
 
 class Resolver implements FieldResolverInterface
 {
     /**
      * @param Entry $entry
-     * @param string $fieldName
-     * @return FieldInterface|null
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\di\NotInstantiableException
+     * @param string $handle
+     * @return CraftFieldInterface|BaseField|null
      */
-    public function resolve(Entry $entry, string $fieldName): ?FieldInterface
+    public function getFieldInstance(Entry $entry, string $handle): CraftFieldInterface | BaseField | null
     {
-        // Check if we find the field in the default field layout
-        $fieldInfo = $entry->getFieldLayout()->getField($fieldName);
-
-        // Looks like we couldn't find it
-        if (! $fieldInfo) {
+        try {
+            // Check if we find the field in the default field layout
+            $field = $entry->getFieldLayout()->getField($handle);
+        } catch (InvalidArgumentException $e) {
+            // We couldn't find it
             return null;
         }
 
-        // Get the classname of the field
-        $fieldClassName = get_class($fieldInfo);
-
         // Is it a custom field? Then find it's specific class in the custom fields list
-        if ($fieldClassName === CustomField::class) {
+        if ($field instanceof CustomField) {
             foreach ($entry->getFieldLayout()->getCustomFields() as $c) {
-                if ($c->handle === $fieldName) {
-                    $fieldClassName = get_class($c);
+                if ($c->handle === $handle) {
+                    $field =  $c;
                     break;
                 }
             }
         }
 
+        return $field;
+    }
+
+    /**
+     * @param Entry $entry
+     * @param string $handle
+     * @return FieldInterface|null
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\di\NotInstantiableException
+     */
+    public function resolve(Entry $entry, string $handle): ?FieldInterface
+    {
+        $field = $this->getFieldInstance($entry, $handle);
+
+        if (! $field) {
+            return null;
+        }
+
+        $fieldClassName = get_class($field);
         $config = Plugin::getInstance()->getSettings();
         $fieldTypes = $config->fields;
 
@@ -50,6 +67,6 @@ class Resolver implements FieldResolverInterface
         }
 
         // Make an instance of the found field type
-        return Craft::$container->get($fieldTypes[$fieldClassName], [$fieldName, $entry]);
+        return Craft::$container->get($fieldTypes[$fieldClassName], [$handle, $entry]);
     }
 }

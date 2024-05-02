@@ -7,11 +7,11 @@ use craft\elements\Entry;
 interface FieldInterface
 {
     /**
-     * @param string $name
+     * @param string $handle
      * @param Entry $originalEntry
      * @param TranslationServiceInterface $service
      */
-    public function __construct(string $name, Entry $originalEntry, TranslationServiceInterface $service);
+    public function __construct(string $handle, Entry $originalEntry, TranslationServiceInterface $service);
 
     /**
      * @param string $fromLanguage

@@ -3,6 +3,12 @@
 namespace Lmr\AutoTranslator\Models;
 
 use craft\base\Model;
+use craft\fieldlayoutelements\entries\EntryTitleField;
+use craft\fields\PlainText;
+use craft\fields\Table;
+use Lmr\AutoTranslator\Fields\Types\RichtextField;
+use Lmr\AutoTranslator\Fields\Types\TableField;
+use Lmr\AutoTranslator\Fields\Types\TextField;
 use Lmr\AutoTranslator\Services\ReverseWordsTranslationService;
 
 /**
@@ -18,12 +24,12 @@ class Settings extends Model
     /**
      * @var array $fromLanguages
      */
-    public array $fromLanguages = ['nl'];
+    public array $fromLanguages = [];
 
     /**
      * @var array $toLanguages
      */
-    public array $toLanguages = ['en'];
+    public array $toLanguages = [];
 
     /**
      * @var string $service
@@ -61,23 +67,16 @@ class Settings extends Model
     /**
      * @var array $translate
      */
-    public array $translate = [
-        'pages' => [
-            'title',
-        ],
-        'cases' => [
-            'title',
-            'commonTextSimple',
-            'commonText',
-        ],
-    ];
+    public array $translate = [];
 
     /**
      * @var array $fields
      */
     public array $fields = [
-        \craft\fieldlayoutelements\entries\EntryTitleField::class => \Lmr\AutoTranslator\Fields\Types\TextField::class,
-        \craft\ckeditor\Field::class => \Lmr\AutoTranslator\Fields\Types\RichtextField::class,
+        PlainText::class => TextField::class,
+        EntryTitleField::class => TextField::class,
+        Table::class => TableField::class,
+        \craft\ckeditor\Field::class => RichtextField::class,
     ];
 
     /**

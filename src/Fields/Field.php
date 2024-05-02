@@ -8,9 +8,9 @@ use Lmr\AutoTranslator\Contracts\TranslationServiceInterface;
 abstract class Field
 {
     /**
-     * @var string $name
+     * @var string $handle
      */
-    protected string $name;
+    protected string $handle;
 
     /**
      * @var Entry $originalEntry
@@ -23,13 +23,13 @@ abstract class Field
     protected TranslationServiceInterface $service;
 
     /**
-     * @param string $name
+     * @param string $handle
      * @param Entry $originalEntry
      * @param TranslationServiceInterface $service
      */
-    public function __construct(string $name, Entry $originalEntry, TranslationServiceInterface $service)
+    public function __construct(string $handle, Entry $originalEntry, TranslationServiceInterface $service)
     {
-        $this->name = $name;
+        $this->handle = $handle;
         $this->originalEntry = $originalEntry;
         $this->service = $service;
     }

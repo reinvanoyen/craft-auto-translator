@@ -6,7 +6,7 @@ use Craft;
 use craft\elements\Entry;
 use craft\errors\ElementNotFoundException;
 use Lmr\AutoTranslator\Contracts\EntryTranslatorInterface;
-use Lmr\AutoTranslator\Contracts\TranslationServiceInterface;
+use Lmr\AutoTranslator\Contracts\FieldResolverInterface;
 use Lmr\AutoTranslator\Fields\Resolver;
 use Lmr\AutoTranslator\Plugin;
 use yii\base\Exception;
@@ -16,12 +16,12 @@ class EntryTranslator implements EntryTranslatorInterface
     /**
      * @var Resolver $fieldResolver
      */
-    private Resolver $fieldResolver;
+    private FieldResolverInterface $fieldResolver;
 
     /**
      * @param Resolver $fieldResolver
      */
-    public function __construct(Resolver $fieldResolver)
+    public function __construct(FieldResolverInterface $fieldResolver)
     {
         $this->fieldResolver = $fieldResolver;
     }

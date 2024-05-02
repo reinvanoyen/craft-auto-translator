@@ -17,12 +17,12 @@ class TextField extends Field implements FieldInterface
     public function translate(string $fromLanguage, string $toLanguage, Entry $translateEntry): void
     {
         // Get the original content for this field and entry
-        $content = $this->originalEntry->{$this->name};
+        $content = $this->originalEntry->{$this->handle};
 
         // Translate it
         $translatedContent = $this->service->translate($content, $fromLanguage, $toLanguage);
 
         // Save!
-        $translateEntry->{$this->name} = $translatedContent;
+        $translateEntry->{$this->handle} = $translatedContent;
     }
 }
