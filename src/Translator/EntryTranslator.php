@@ -19,18 +19,11 @@ class EntryTranslator implements EntryTranslatorInterface
     private Resolver $fieldResolver;
 
     /**
-     * @var TranslationServiceInterface $service
-     */
-    private TranslationServiceInterface $service;
-
-    /**
      * @param Resolver $fieldResolver
-     * @param TranslationServiceInterface $service
      */
-    public function __construct(Resolver $fieldResolver, TranslationServiceInterface $service)
+    public function __construct(Resolver $fieldResolver)
     {
         $this->fieldResolver = $fieldResolver;
-        $this->service = $service;
     }
 
     /**
