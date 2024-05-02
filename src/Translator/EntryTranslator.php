@@ -11,7 +11,7 @@ use Lmr\AutoTranslator\Fields\Resolver;
 use Lmr\AutoTranslator\Plugin;
 use yii\base\Exception;
 
-class DefaultEntryTranslatorInterface implements EntryTranslatorInterface
+class EntryTranslator implements EntryTranslatorInterface
 {
     /**
      * @var Resolver $fieldResolver
@@ -50,7 +50,7 @@ class DefaultEntryTranslatorInterface implements EntryTranslatorInterface
         $config = Plugin::getInstance()->getSettings();
         $translateFields = $config->translate[$handle];
 
-        // Loop through each translatable field and
+        // Loop through each field and translate its contents
         foreach ($translateFields as $fieldName) {
 
             $field = $this->fieldResolver->resolve($originalEntry, $fieldName);
@@ -59,16 +59,8 @@ class DefaultEntryTranslatorInterface implements EntryTranslatorInterface
                 continue;
             }
 
+            // Translate!
             $field->translate($fromLanguage, $toLanguage, $translateEntry);
-
-            // Get the original content for this field type and entry
-            $content = $field->get($fieldName, $originalEntry);
-
-            // Translate it
-            $translated = $this->service->translate($content, $fromLanguage, $toLanguage);
-
-            // Save!
-            $field->save($fieldName, $translateEntry, $translated);
         }
 
         // Save the translated entry

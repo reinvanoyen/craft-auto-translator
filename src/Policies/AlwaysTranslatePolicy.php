@@ -3,9 +3,9 @@
 namespace Lmr\AutoTranslator\Policies;
 
 use craft\elements\Entry;
-use Lmr\AutoTranslator\Contracts\Policy;
+use Lmr\AutoTranslator\Contracts\PolicyInterface;
 
-class AlwaysTranslatePolicy implements Policy
+class AlwaysTranslatePolicy implements PolicyInterface
 {
     /**
      * @param Entry $entry

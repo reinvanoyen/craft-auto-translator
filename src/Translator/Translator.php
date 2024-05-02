@@ -7,7 +7,7 @@ use craft\elements\Entry;
 use Lmr\AutoTranslator\Contracts\PolicyInterface;
 use Lmr\AutoTranslator\Plugin;
 
-class DefaultTranslator
+class Translator
 {
     /**
      * @var PolicyInterface $policy

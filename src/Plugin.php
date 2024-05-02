@@ -6,10 +6,10 @@ use Craft;
 use craft\base\{Event, Model, Plugin as BasePlugin};
 use craft\elements\Entry;
 use craft\events\ModelEvent;
-use Lmr\AutoTranslator\Contracts\Policy;
-use Lmr\AutoTranslator\Contracts\TranslationService;
+use Lmr\AutoTranslator\Contracts\PolicyInterface;
+use Lmr\AutoTranslator\Contracts\TranslationServiceInterface;
 use Lmr\AutoTranslator\Models\Settings;
-use Lmr\AutoTranslator\Translator\DefaultTranslator;
+use Lmr\AutoTranslator\Translator\Translator;
 
 class Plugin extends BasePlugin
 {
@@ -31,7 +31,7 @@ class Plugin extends BasePlugin
         return [
             'components' => [
                 'translator' => [
-                    'class' => DefaultTranslator::class,
+                    'class' => Translator::class,
                 ],
             ],
         ];
@@ -57,8 +57,8 @@ class Plugin extends BasePlugin
     {
         $config = $this->getSettings();
 
-        Craft::$container->set(Policy::class, $config->policy);
-        Craft::$container->set(TranslationService::class, $config->services[$config->service]);
+        Craft::$container->set(PolicyInterface::class, $config->policy);
+        Craft::$container->set(TranslationServiceInterface::class, $config->services[$config->service]);
     }
 
     /**

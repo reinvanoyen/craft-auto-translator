@@ -7,7 +7,7 @@ use craft\helpers\ElementHelper;
 use Lmr\AutoTranslator\Contracts\PolicyInterface;
 use Lmr\AutoTranslator\Plugin;
 
-class DefaultPolicyInterface implements PolicyInterface
+class DefaultPolicy implements PolicyInterface
 {
     /**
      * @param Entry $entry

@@ -2,9 +2,9 @@
 
 namespace Lmr\AutoTranslator\Services;
 
-use Lmr\AutoTranslator\Contracts\TranslationService;
+use Lmr\AutoTranslator\Contracts\TranslationServiceInterface;
 
-class ReverseWordsTranslationService implements TranslationService
+class ReverseWordsTranslationService implements TranslationServiceInterface
 {
     /**
      * @param string $input

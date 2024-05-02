@@ -3,9 +3,9 @@
 namespace Lmr\AutoTranslator\Services;
 
 use DeepL\Translator;
-use Lmr\AutoTranslator\Contracts\TranslationService;
+use Lmr\AutoTranslator\Contracts\TranslationServiceInterface;
 
-class DeeplTranslationService implements TranslationService
+class DeeplTranslationService implements TranslationServiceInterface
 {
     /**
      * @var string $key

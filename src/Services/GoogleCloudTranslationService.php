@@ -4,9 +4,9 @@ namespace Lmr\AutoTranslator\Services;
 
 use Google\Cloud\Translate\V3\Client\TranslationServiceClient;
 use Google\Cloud\Translate\V3\TranslateTextRequest;
-use Lmr\AutoTranslator\Contracts\TranslationService;
+use Lmr\AutoTranslator\Contracts\TranslationServiceInterface;
 
-class GoogleCloudTranslationService implements TranslationService
+class GoogleCloudTranslationService implements TranslationServiceInterface
 {
     /**
      * @var TranslationServiceClient $client
