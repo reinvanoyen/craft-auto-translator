@@ -4,26 +4,26 @@ namespace Lmr\AutoTranslator\Translator;
 
 use Craft;
 use craft\elements\Entry;
-use Lmr\AutoTranslator\Contracts\Policy;
+use Lmr\AutoTranslator\Contracts\PolicyInterface;
 use Lmr\AutoTranslator\Plugin;
 
 class DefaultTranslator
 {
     /**
-     * @var Policy $policy
+     * @var PolicyInterface $policy
      */
-    public Policy $policy;
+    public PolicyInterface $policy;
 
     /**
-     * @var DefaultEntryTranslator $entryTranslator
+     * @var EntryTranslator $entryTranslator
      */
-    public DefaultEntryTranslator $entryTranslator;
+    public EntryTranslator $entryTranslator;
 
     /**
-     * @param Policy $policy
-     * @param DefaultEntryTranslator $entryTranslator
+     * @param PolicyInterface $policy
+     * @param EntryTranslator $entryTranslator
      */
-    public function __construct(Policy $policy, DefaultEntryTranslator $entryTranslator)
+    public function __construct(PolicyInterface $policy, EntryTranslator $entryTranslator)
     {
         $this->policy = $policy;
         $this->entryTranslator = $entryTranslator;
@@ -80,6 +80,7 @@ class DefaultTranslator
 
                     $entryToTranslate = $entryToTranslate->one();
 
+                    // Translate the entry
                     $this->entryTranslator->translate($entry, $entryToTranslate, $entry->site->language, $site->language);
                 }
             }

@@ -5,18 +5,20 @@ namespace Lmr\AutoTranslator\Fields;
 use Craft;
 use craft\elements\Entry;
 use craft\fieldlayoutelements\CustomField;
-use Lmr\AutoTranslator\Contracts\Field;
-use Lmr\AutoTranslator\Contracts\FieldResolver;
+use Lmr\AutoTranslator\Contracts\FieldInterface;
+use Lmr\AutoTranslator\Contracts\FieldResolverInterface;
 use Lmr\AutoTranslator\Plugin;
 
-class Resolver implements FieldResolver
+class ResolverInterface implements FieldResolverInterface
 {
     /**
      * @param Entry $entry
      * @param string $fieldName
-     * @return Field|null
+     * @return FieldInterface|null
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\di\NotInstantiableException
      */
-    public function resolve(Entry $entry, string $fieldName): ?Field
+    public function resolve(Entry $entry, string $fieldName): ?FieldInterface
     {
         // Check if we find the field in the default field layout
         $fieldInfo = $entry->getFieldLayout()->getField($fieldName);
@@ -48,6 +50,6 @@ class Resolver implements FieldResolver
         }
 
         // Make an instance of the found field type
-        return Craft::$container->get($fieldTypes[$fieldClassName]);
+        return Craft::$container->get($fieldTypes[$fieldClassName], [$fieldName]);
     }
 }

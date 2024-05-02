@@ -4,12 +4,14 @@ namespace Lmr\AutoTranslator\Translator;
 
 use Craft;
 use craft\elements\Entry;
-use Lmr\AutoTranslator\Contracts\EntryTranslator;
-use Lmr\AutoTranslator\Contracts\TranslationService;
+use craft\errors\ElementNotFoundException;
+use Lmr\AutoTranslator\Contracts\EntryTranslatorInterface;
+use Lmr\AutoTranslator\Contracts\TranslationServiceInterface;
 use Lmr\AutoTranslator\Fields\Resolver;
 use Lmr\AutoTranslator\Plugin;
+use yii\base\Exception;
 
-class DefaultEntryTranslator implements EntryTranslator
+class DefaultEntryTranslatorInterface implements EntryTranslatorInterface
 {
     /**
      * @var Resolver $fieldResolver
@@ -17,30 +19,29 @@ class DefaultEntryTranslator implements EntryTranslator
     private Resolver $fieldResolver;
 
     /**
-     * @var TranslationService $service
+     * @var TranslationServiceInterface $service
      */
-    private TranslationService $service;
+    private TranslationServiceInterface $service;
 
     /**
      * @param Resolver $fieldResolver
-     * @param TranslationService $service
+     * @param TranslationServiceInterface $service
      */
-    public function __construct(Resolver $fieldResolver, TranslationService $service)
+    public function __construct(Resolver $fieldResolver, TranslationServiceInterface $service)
     {
         $this->fieldResolver = $fieldResolver;
         $this->service = $service;
     }
 
     /**
-     * @param Entry $entry
+     * @param Entry $originalEntry
+     * @param Entry $translateEntry
      * @param $fromLanguage
      * @param $toLanguage
      * @return void
      * @throws \Throwable
-     * @throws \craft\errors\ElementNotFoundException
-     * @throws \yii\base\Exception
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\di\NotInstantiableException
+     * @throws ElementNotFoundException
+     * @throws Exception
      */
     public function translate(Entry $originalEntry, Entry $translateEntry, $fromLanguage, $toLanguage)
     {
@@ -49,18 +50,25 @@ class DefaultEntryTranslator implements EntryTranslator
         $config = Plugin::getInstance()->getSettings();
         $translateFields = $config->translate[$handle];
 
-        foreach ($translateFields as $field) {
+        // Loop through each translatable field and
+        foreach ($translateFields as $fieldName) {
 
-            $fieldType = $this->fieldResolver->resolve($originalEntry, $field);
+            $field = $this->fieldResolver->resolve($originalEntry, $fieldName);
+
+            if (!$field) {
+                continue;
+            }
+
+            $field->translate($fromLanguage, $toLanguage, $translateEntry);
 
             // Get the original content for this field type and entry
-            $content = $fieldType->get($field, $originalEntry);
+            $content = $field->get($fieldName, $originalEntry);
 
             // Translate it
             $translated = $this->service->translate($content, $fromLanguage, $toLanguage);
 
             // Save!
-            $fieldType->save($field, $translateEntry, $translated);
+            $field->save($fieldName, $translateEntry, $translated);
         }
 
         // Save the translated entry

@@ -2,7 +2,7 @@
 
 namespace Lmr\AutoTranslator\Contracts;
 
-interface TranslationService
+interface TranslationServiceInterface
 {
     public function translate(string $input, string $fromLanguage, string $toLanguage): string;
 }

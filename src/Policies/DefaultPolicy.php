@@ -4,10 +4,10 @@ namespace Lmr\AutoTranslator\Policies;
 
 use craft\elements\Entry;
 use craft\helpers\ElementHelper;
-use Lmr\AutoTranslator\Contracts\Policy;
+use Lmr\AutoTranslator\Contracts\PolicyInterface;
 use Lmr\AutoTranslator\Plugin;
 
-class DefaultPolicy implements Policy
+class DefaultPolicyInterface implements PolicyInterface
 {
     /**
      * @param Entry $entry

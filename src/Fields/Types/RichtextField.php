@@ -3,9 +3,9 @@
 namespace Lmr\AutoTranslator\Fields\Types;
 
 use craft\elements\Entry;
-use Lmr\AutoTranslator\Contracts\Field;
+use Lmr\AutoTranslator\Contracts\FieldInterface;
 
-class RichtextField implements Field
+class RichtextFieldInterface implements FieldInterface
 {
     /**
      * @param string $name
